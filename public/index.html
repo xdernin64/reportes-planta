@@ -1,0 +1,1166 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Reportes planta de osmosis</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous">
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.10.2/dist/umd/popper.min.js"
+        integrity="sha384-7+zCNj/IqJ95wo16oMtfsKbZ9ccEh31eOz1HGyDuCQ6wgnyJNSYdrPa03rtR1zdB" crossorigin="anonymous">
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.min.js"
+        integrity="sha384-QJHtvGhmr9XOIpI6YVutG+2QOK9T+ZnN4kzFN1RtK3zEFEIsxhlmWl5/YESvpZ13" crossorigin="anonymous">
+    </script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="css/reportesplanta.css">
+    <link rel="stylesheet" href="css/reportesplanta2.css">
+    <script src="https://momentjs.com/downloads/moment.min.js"></script>
+    <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script type="text/javascript" src="https://unpkg.com/xlsx@0.15.1/dist/xlsx.full.min.js"></script>
+
+</head>
+
+<body>
+    <header>
+        <ul class="nav nav-tabs" id="Reportes" role="tablist">
+            <li class="nav-item" role="presentation">
+                <button class="nav-link active" id="plantas-tab" data-bs-toggle="tab" type="button" role="tab"
+                    aria-selected="true">Plantas</button>
+            </li>
+            <li class="nav-item" role="presentation">
+                <button class="nav-link" id="bypass-tab" data-bs-toggle="tab" type="button" role="tab"
+                    aria-selected="false">Bypass</button>
+            </li>
+            <li class="nav-item" role="presentation">
+                <button class="nav-link" id="rechazo-tab" data-bs-toggle="tab" type="button" role="tab"
+                    aria-selected="false">Rechazo</button>
+            </li>
+            <li class="nav-item" role="presentation">
+                <button class="nav-link" id="ingreso-tab" data-bs-toggle="tab" type="button" role="tab"
+                    aria-selected="false">Ingreso</button>
+            </li>
+            <li class="nav-item" role="presentation">
+                <button class="nav-link" id="hdmi1-tab" data-bs-toggle="tab" type="button" role="tab"
+                    aria-selected="false">HDMI1</button>
+            </li>
+            <li class="nav-item" role="presentation">
+                <button class="nav-link" id="hdmi2-tab" data-bs-toggle="tab" type="button" role="tab"
+                    aria-selected="false">HDMI2</button>
+            </li>
+            <li class="nav-item" role="presentation">
+                <button class="nav-link" id="phce-tab" data-bs-toggle="tab" type="button" role="tab"
+                    aria-selected="false">PH CE planta</button>
+            </li>
+        </ul>
+    </header>
+    <div id="content-plantas" class="m-1">
+        <h1 class="d-flex justify-content-center">Planta de Osmosis</h1>
+        <div class="d-flex bd-highlight">
+            <div class="p-2 w-100 bd-highlight">
+                <select class="form-select form-select-lg mb-3" id="qplanta" aria-label=".form-select-lg example">
+                    <option value="Planta 1">Planta 1</option>
+                    <option value="Planta 2">Planta 2</option>
+                </select>
+            </div>
+            <div class="p-2 flex-shrink-1 bd-highlight"><button type="button" class="btn btn-dark"
+                    data-bs-toggle="modal" id="agregarplanta" data-bs-target="#modal-rplanta">
+                    Agregar
+                </button>
+            </div>
+
+        </div>
+        <form id="buscarptoi">
+            <div class="form-control">
+                <div class="form-group d-flex flex-row bd-highlight">
+                    <div class="form-group p-1 w-50">
+                        <label for="qdatestartptoi">Fecha inicio</label>
+                        <input type="date" class="form-control" id="qdatestartptoi" name="hora_inicio"
+                            value="2022-01-01">
+                    </div>
+                    <div class="form-group p-1 w-50">
+                        <label for="qdateendptoi">Fecha final</label>
+                        <input type="date" class="form-control" id="qdateendptoi" name="hora_final">
+                    </div>
+
+                </div>
+                <div class="form-group d-flex flex-row bd-highlight">
+                    <div class="form-group p-1">
+                        <button type="button" id="qptoidt" class="btn btn-dark m-2">Buscar</button>
+                    </div>
+                    <div class="form-group p-1">
+                        <button type="button" class="btn btn-success m-2"
+                            onclick="ExportToExcel('xls','xlxplanta','Reporte_planta')">Guardar excel</button>
+                    </div>
+                </div>
+
+            </div>
+        </form>
+
+
+        <div class="table-responsive-md">
+            <table id="xlxplanta" class="table table-bordered w-90">
+                <thead>
+                    <tr>
+                        <th scope="col">PLANTA</th>
+                        <th scope="col">FECHA</th>
+                        <th scope="col">H.INICIO</th>
+                        <th scope="col">H.FINAL</th>
+                        <th scope="col">INGRESO INICIO </th>
+                        <th scope="col">INGRESO FIN</th>
+                        <th scope="col">RECHAZO INICIO</th>
+                        <th scope="col">RECHAZO FIN</th>
+                        <th scope="col">OBSERVACIONES</th>
+                        <th scope="col">ACCIONES</th>
+                    </tr>
+                </thead>
+                <tbody id="contenido-plantas">
+
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <div id="content-bypass" class="m-1 d-none">
+        <h1 class="d-flex justify-content-center">Registro BYPASS</h1>
+        <div class="d-flex bd-highlight">
+            <div class="p-2 w-100 bd-highlight">
+                <select class="form-select form-select-lg mb-3" id="qbypass" aria-label=".form-select-lg example">
+                    <option value="Planta 1">Planta 1</option>
+                    <option value="Planta 2" selected="selected">Planta 2</option>
+                </select>
+            </div>
+            <div class="p-2 flex-shrink-1 bd-highlight"><button type="button" class="btn btn-dark"
+                    data-bs-toggle="modal" id="agregarbypass" data-bs-target="#modal-bypass">
+                    Agregar
+                </button>
+            </div>
+        </div>
+        <form id="buscarbypass">
+            <div class="form-control">
+                <div class="form-group d-flex flex-row bd-highlight">
+                    <div class="form-group p-1 w-50">
+                        <label for="qdatestartbypass">Fecha inicio</label>
+                        <input type="date" class="form-control" id="qdatestartbypass" name="hora_inicio"
+                            value="2022-01-01">
+                    </div>
+                    <div class="form-group p-1 w-50">
+                        <label for="qdateendbypass">Fecha final</label>
+                        <input type="date" class="form-control" id="qdateendbypass" name="hora_final">
+                    </div>
+
+                </div>
+                <div class="form-group d-flex flex-row bd-highlight">
+                    <div class="form-group p-1">
+                        <button type="button" id="qbyoassdt" class="btn btn-dark m-2">Buscar</button>
+                    </div>
+                    <div class="form-group p-1">
+                        <button type="button" class="btn btn-success m-2"
+                            onclick="ExportToExcel('xls','xlxbypass','Reporte_bypass')">Guardar excel</button>
+                    </div>
+                </div>
+
+            </div>
+        </form>
+
+        <div class="table-responsive-md">
+            <table id="xlxbypass" class="table table-bordered w-90">
+                <thead>
+                    <tr>
+                        <th scope="col">PLANTA</th>
+                        <th scope="col">FECHA</th>
+                        <th scope="col">H.INICIO</th>
+                        <th scope="col">H.FINAL</th>
+                        <th scope="col">PTOI INICIO </th>
+                        <th scope="col">PTOI FIN</th>
+                        <th scope="col">INICIO BYPASS</th>
+                        <th scope="col">FIN BYPASS</th>
+                        <th scope="col">OBSERVACIONES</th>
+                        <th scope="col">ACCIONES</th>
+                    </tr>
+                </thead>
+                <tbody id="contenido-bypass">
+
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <div id="content-rechazo" class="m-1 d-none">
+        <h1 class="d-flex justify-content-center">Registro Rechazo</h1>
+        <div class="d-flex bd-highlight">
+            <div class="p-2 flex-shrink-1 bd-highlight"><button type="button" class="btn btn-dark"
+                    data-bs-toggle="modal" id="agregarrechazo" data-bs-target="#modal-rechazo">
+                    Agregar rechazo
+                </button>
+            </div>
+        </div>
+        <form id="buscarrechazo">
+            <div class="form-control">
+                <div class="form-group d-flex flex-row bd-highlight">
+                    <div class="form-group p-1 w-50">
+                        <label for="qdatestartrechazo">Fecha inicio</label>
+                        <input type="date" class="form-control" id="qdatestartrechazo" name="hora_inicio"
+                            value="2022-01-01">
+                    </div>
+                    <div class="form-group p-1 w-50">
+                        <label for="qdateendrechazo">Fecha final</label>
+                        <input type="date" class="form-control" id="qdateendrechazo" name="hora_final">
+                    </div>
+
+                </div>
+                <div class="form-group d-flex flex-row bd-highlight">
+                    <div class="form-group p-1">
+                        <button type="button" id="qrechazodt" class="btn btn-dark m-2">Buscar</button>
+                    </div>
+                    <div class="form-group p-1">
+                        <button type="button" class="btn btn-success m-2"
+                            onclick="ExportToExcel('xls','xlxrechazo','Reporte_rechazo')">Guardar excel</button>
+                    </div>
+                </div>
+
+            </div>
+        </form>
+        <div class="table-responsive-md">
+            <table id="xlxrechazo" class="table table-bordered w-90">
+                <thead>
+                    <tr>
+                        <th scope="col">FECHA</th>
+                        <th scope="col">H.INICIO</th>
+                        <th scope="col">H.FINAL</th>
+                        <th scope="col">INICIO RECHAZO</th>
+                        <th scope="col">FIN RECHAZO</th>
+                        <th scope="col">OBSERVACIONES</th>
+                        <th scope="col">ACCIONES</th>
+                    </tr>
+                </thead>
+                <tbody id="contenido-rechazo">
+
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <div id="content-ingreso" class="m-1 d-none">
+        <h1 class="d-flex justify-content-center">Registro Ingreso</h1>
+        <div class="d-flex bd-highlight">
+            <div class="p-2 flex-shrink-1 bd-highlight"><button type="button" class="btn btn-dark"
+                    data-bs-toggle="modal" id="agregaringreso" data-bs-target="#modal-ingreso">
+                    Agregar Ingreso
+                </button>
+
+            </div>
+        </div>
+        <form id="buscaringreso">
+            <div class="form-control">
+                <div class="form-group d-flex flex-row bd-highlight">
+                    <div class="form-group p-1 w-50">
+                        <label for="qdatestartingreso">Fecha inicio</label>
+                        <input type="date" class="form-control" id="qdatestartingreso" name="hora_inicio"
+                            value="2022-01-01">
+                    </div>
+                    <div class="form-group p-1 w-50">
+                        <label for="qdateendingreso">Fecha final</label>
+                        <input type="date" class="form-control" id="qdateendingreso" name="hora_final">
+                    </div>
+
+                </div>
+                <div class="form-group d-flex flex-row bd-highlight">
+                    <div class="form-group p-1">
+                        <button type="button" id="qingresodt" class="btn btn-dark m-2">Buscar</button>
+                    </div>
+                    <div class="form-group p-1">
+                        <button type="button" class="btn btn-success m-2"
+                            onclick="ExportToExcel('xls','xlxingreso','Reporte_ingreso')">Guardar excel</button>
+                    </div>
+                </div>
+
+            </div>
+        </form>
+
+        <div class="table-responsive-md">
+            <table id="xlxingreso" class="table table-bordered w-90">
+                <thead>
+                    <tr>
+                        <th scope="col">FECHA</th>
+                        <th scope="col">H.INICIO</th>
+                        <th scope="col">H.FINAL</th>
+                        <th scope="col">INICIO RECHAZO</th>
+                        <th scope="col">FIN RECHAZO</th>
+                        <th scope="col">OBSERVACIONES</th>
+                        <th scope="col">ACCIONES</th>
+                    </tr>
+                </thead>
+                <tbody id="contenido-ingreso">
+
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <section id="content-hdmi1" class="d-none w-100 h-100  bg-dark">
+        <div class="table-responive position-relative d-flex justify-content-center">
+            <div class="mw-100 h-100 overflow-auto">
+                <form id="imagenplanta" class="position-relative">
+                    <input type="date" id="ptoi1-fecha" placeholder="Fecha" class="ed1">
+                    <select title="Hora" id="hora-ptoi1" class="ed1">
+                        <option value="06:00">06:00</option>
+                        <option value="12:00">12:00</option>
+                        <option value="16:00">16:00</option>
+                        <option value="22:00">22:00</option>
+                    </select>
+                    <input title="p60" type="number" step="any" name="numero" id="p60-1" class="editables1 ed1">
+                    <input title="PRESSURE S.P" type="number" step="any" name="numero" id="pressueresp-1"
+                        class="editables ed1">
+                    <input title="fit20" type="number" step="any" name="numero" id="fit-20-1" class="editables ed1">
+                    <input title="pt20" type="number" step="any" name="numero" id="pt20-1" class="editables ed1">
+                    <input title="pt20 S.P" type="number" step="any" name="numero" id="pt20sp-1" value="2.00"
+                        class="editables ed1">
+                    <input title="ph02" type="number" step="any" name="numero" id="ph02-1" class="editables ed1">
+                    <input title="pt20-pt1" type="number" step="any" name="numero" id="pt20-pt1-1"
+                        class="editables ed1">
+                    <input title="con-0" type="number" step="any" name="numero" id="con0-1" class="editables ed1">
+                    <input title="PT-01" type="number" step="any" name="numero" id="pt01-1" class="editables ed1">
+                    <input title="PT-02" type="number" step="any" name="numero" id="pt02-1" class="editables ed1">
+                    <input title="PT-03" type="number" step="any" name="numero" id="pt03-1" class="editables ed1">
+                    <input title="PT02-SP" type="number" step="any" name="numero" id="pt02sp-1" value="1.80"
+                        class="editables ed1">
+                    <input title="PT03-SP" type="number" step="any" name="numero" id="pt03sp-1" value="16.00"
+                        class="editables ed1">
+                    <input title="PT01-PT02" type="number" step="any" name="numero" id="pt01-pt02-1"
+                        class="editables ed1">
+                    <input title="TOC" type="number" step="any" name="numero" id="toc-1" class="editables ed1">
+                    <input title="PT-100" type="number" step="any" name="numero" id="pt100-1" class="editables ed1">
+                    <input title="FIT-01" type="number" step="any" name="numero" id="fit01-1" class="editables ed1">
+                    <input title="P-71" type="number" step="any" name="numero" id="p71-1" class="editables ed1">
+                    <input title="P-71hz" type="number" step="any" name="numero" id="p71hz-1" class="editables ed1">
+                    <input title="DP-01" type="number" step="any" name="numero" id="dp01-1" class="editables ed1">
+                    <input title="DP-01sp" type="number" step="any" name="numero" id="dp01sp-1" class="editables ed1">
+                    <input title="PH-01" type="number" step="any" name="numero" id="ph01-1" class="editables ed1">
+                    <input title="PT-05" type="number" step="any" name="numero" id="pt05-1" class="editables ed1">
+                    <input title="CON-1" type="number" step="any" name="numero" id="con01-1" class="editables ed1">
+                    <input title="FIT-02" type="number" step="any" name="numero" id="fit02-1" class="editables ed1">
+                    <input title="CON-02" type="number" step="any" name="numero" id="con02-1" class="editables ed1">
+                    <input title="FIT-03" type="number" step="any" name="numero" id="fit03-1" class="editables ed1">
+                    <input title="PT-06" type="number" step="any" name="numero" id="pt06-1" class="editables ed1">
+                    <input title="PT03-PT06" type="number" id="pt03-pt06-1" class="editables ed1">
+                    <button title="Guardar" type="submit" class="btn-crud" id="guardar-ptoi1"><img
+                            src="img/icons/save-icon.png" alt=""></button>
+                    <button title="Buscar" type="button" class="btn-crud d-none" id="buscar-ptoi1"><img
+                            src="img/icons/search-icon.png" alt=""></button>
+                    <button title="Editar" type="button" class="btn-crud" id="editar-ptoi1" disabled><img
+                            src="img/icons/edit-icon.png" alt=""></button>
+                    <button title="Actualizar" type="button" class="btn-crud d-none" id="actualizar-ptoi1"><img
+                            src="img/icons/update-icon.png" alt=""></button>
+                    <button title="Eliminar" type="button" class="btn-crud d-none" id="eliminar-ptoi1"><img
+                            src="img/icons/delete-icon.png" alt=""></button>
+                    <button title="Cancelar" type="button" class="btn-crud" id="cancelar-ptoi1"><img
+                            src="img/icons/cancel-icon.png" alt=""></button>
+                    <button title="Tabla" type="button" class="btn-crud" id="tabla-ptoi1"><img
+                            src="img/icons/table-icon.png" alt=""></button>
+                </form>
+
+            </div>
+
+        </div>
+    </section>
+    <section id="content-hdmi2" class="d-none w-100 h-100 bg-dark">
+        <div class="table-responive position-relative d-flex justify-content-center">
+            <div class="mw-100 h-100 overflow-auto">
+                <form id="imagenplanta2" class="position-relative">
+                    <input type="date" id="ptoi2-fecha" placeholder="Fecha" class="ed2">
+                    <select title="Hora" id="hora-ptoi2" class="ed2">
+                        <option value="06:00">06:00</option>
+                        <option value="12:00">12:00</option>
+                        <option value="16:00">16:00</option>
+                        <option value="22:00">22:00</option>
+                    </select>
+                    <input title="p60" type="number" step="any" name="numero" id="p60-2" class="editables ed2">
+                    <input title="PRESSURE S.P" step="any" name="numero" type="number" id="pressueresp-2"
+                        class="editables ed2">
+                    <input title="fit20" step="any" name="numero" type="number" id="fit-20-2" class="editables ed2">
+                    <input title="pt20" step="any" name="numero" type="number" id="pt20-2" class="editables ed2">
+                    <input title="pt20 S.P" step="any" name="numero" type="number" id="pt20sp-2" value="2.00"
+                        class="editables ed2">
+                    <input title="ph60" step="any" name="numero" type="number" id="ph60-2" class="editables ed2">
+                    <input title="pt20-pt1" step="any" name="numero" type="number" id="pt20-pt1-2"
+                        class="editables ed2">
+                    <input title="con-0" step="any" name="numero" type="number" id="con0-2" class="editables ed2">
+                    <input title="PT-01" step="any" name="numero" type="number" id="pt01-2" class="editables ed2">
+                    <input title="PT-02" step="any" name="numero" type="number" id="pt02-2" class="editables ed2">
+                    <input title="PT-03" step="any" name="numero" type="number" id="pt03-2" class="editables ed2">
+                    <input title="PT02-SP" type="number" step="any" name="numero" id="pt02sp-2" value="1.80"
+                        class="editables ed2">
+                    <input title="PT03-SP" type="number" step="any" name="numero" id="pt03sp-2" value="16.00"
+                        class="editables ed2">
+                    <input title="PT01-PT02" type="number" step="any" name="numero" id="pt01-pt02-2"
+                        class="editables ed2">
+                    <input title="TOC" type="number" step="any" name="numero" id="toc-2" class="editables ed2">
+                    <input title="PT-100" type="number" step="any" name="numero" id="pt100-2" class="editables ed2">
+                    <input title="FIT-01" type="number" step="any" name="numero" id="fit01-2" class="editables ed2">
+                    <input title="P-71" type="number" step="any" name="numero" id="p71-2" class="editables ed2">
+                    <input title="P-71hz" type="number" step="any" name="numero" id="p71hz-2" class="editables ed2">
+                    <input title="DP-01" type="number" step="any" name="numero" id="dp01-2" class="editables ed2">
+                    <input title="DP-01sp" type="number" id="dp01sp-2" class="editables ed2">
+                    <input title="ERT" type="number" step="any" name="numero" id="ert-2" class="editables ed2">
+                    <input title="PT-05" type="number" step="any" name="numero" id="pt05-2" class="editables ed2">
+                    <input title="CON-1" type="number" step="any" name="numero" id="con01-2" class="editables ed2">
+                    <input title="FIT-02" type="number" step="any" name="numero" id="fit02-2" class="editables ed2">
+                    <input title="PH-01" type="number" step="any" name="numero" id="ph01-2" class="editables ed2">
+                    <input title="FIT-80" type="number" step="any" name="numero" id="fit80-2" class="editables ed2">
+                    <input title="FIT-03" type="number" step="any" name="numero" id="fit03-2" class="editables ed2">
+                    <input title="PT-06" type="number" step="any" name="numero" id="pt06-2" class="editables ed2">
+                    <input title="PT03-PT06" type="number" step="any" name="numero" id="pt03-pt06-2"
+                        class="editables ed2">
+                    <button title="Guardar" type="submit" class="btn-crud" id="guardar-ptoi2"><img
+                            src="img/icons/save-icon.png" alt=""></button>
+                    <button title="Buscar" type="button" class="btn-crud d-none" id="buscar-ptoi2"><img
+                            src="img/icons/search-icon.png" alt=""></button>
+                    <button title="Editar" type="button" class="btn-crud" id="editar-ptoi2" disabled><img
+                            src="img/icons/edit-icon.png" alt=""></button>
+                    <button title="Actualizar" type="button" class="btn-crud d-none" id="actualizar-ptoi2"><img
+                            src="img/icons/update-icon.png" alt=""></button>
+                    <button title="Eliminar" type="button" class="btn-crud d-none" id="eliminar-ptoi2"><img
+                            src="img/icons/delete-icon.png" alt=""></button>
+                    <button title="Cancelar" type="button" class="btn-crud" id="cancelar-ptoi2"><img
+                            src="img/icons/cancel-icon.png" alt=""></button>
+                    <button title="Tabla" type="button" class="btn-crud" id="tabla-ptoi2"><img
+                            src="img/icons/table-icon.png" alt=""></button>
+                </form>
+
+            </div>
+
+        </div>
+    </section>
+    <section id="content-phce" class="d-none">
+        <h1 class="d-flex justify-content-center">Registro PHCE</h1>
+        <div class="d-flex bd-highlight">
+            <div class="p-2 flex-shrink-1 bd-highlight"><button type="button" class="btn btn-dark"
+                    data-bs-toggle="modal" id="agregarphce" data-bs-target="#modal-PHCE">
+                    Agregar registro
+                </button>
+
+            </div>
+        </div>
+        <form id="buscarphce">
+            <div class="form-control">
+                <div class="form-group d-flex flex-row bd-highlight">
+                    <div class="form-group p-1 w-50">
+                        <label for="qdatestartphce">Fecha inicio</label>
+                        <input type="date" class="form-control" id="qdatestartphce" name="hora_inicio"
+                            value="2022-01-01">
+                    </div>
+                    <div class="form-group p-1 w-50">
+                        <label for="qdateendphce">Fecha final</label>
+                        <input type="date" class="form-control" id="qdateendphce" name="hora_final">
+                    </div>
+
+                </div>
+                <div class="form-group d-flex flex-row bd-highlight">
+                    <div class="form-group p-1">
+                        <button type="button" id="qphcedt" class="btn btn-dark m-2">Buscar</button>
+                    </div>
+                    <div class="form-group p-1">
+                        <button type="button" class="btn btn-success m-2"
+                            onclick="ExportToExcel('xls','xlxphce','Reporte_phce')">Guardar excel</button>
+                    </div>
+                </div>
+
+            </div>
+        </form>
+
+        <div class="table-responsive-md">
+            <table id="xlxphce" class="table table-bordered w-90">
+                <thead>
+                    <tr>
+                        <th scope="col">FECHA</th>
+                        <th scope="col">HORA</th>
+                        <th scope="col">PH PISCINA 100</th>
+                        <th scope="col">PH PISCINA 100 HDMI</th>
+                        <th scope="col">CE PISCINA 100</th>
+                        <th scope="col">CE PISCINA 100 HDMI</th>
+                        <th scope="col">POI1 PH</th>
+                        <th scope="col">POI1 PH HDMI</th>
+                        <th scope="col">POI1 CE</th>
+                        <th scope="col">POI1 CE HDMI</th>
+                        <th scope="col">POI2 PH</th>
+                        <th scope="col">POI2 PH HDMI</th>
+                        <th scope="col">POI2 CE</th>
+                        <th scope="col">POI2 CE HDMI</th>
+                        <th scope="col">PH PISCINA 300</th>
+                        <th scope="col">CE PISCINA 300</th>
+                        <th scope="col">OBSERVACIONES</th>
+                        <th scope="col">ACCIONES</th>
+                    </tr>
+                </thead>
+                <tbody id="contenido-phce">
+
+                </tbody>
+            </table>
+        </div>
+    </section>
+
+    <!-- Modales -->
+    <!--- Modal registro plantas-->
+    <div class="modal fade" id="modal-rplanta" tabindex="-1" aria-labelledby="rplantalabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="rplantalabel">Agregar</h5>
+                    <button type="button" id="close-modal-planta" class="btn-close" data-bs-dismiss="modal"
+                        aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="formplantas">
+                        <div class="form-group d-flex flex-column bd-highlight">
+                            <div class="form-group d-flex flex-row bd-highlight">
+                                <div class="form-group p-1 w-100">
+                                    <label for="nombre-planta">Planta</label>
+                                    <select id="nombre-planta" class="form-select fw-bolder text-center fs-4">
+                                        <option value="Planta 1">Planta 1</option>
+                                        <option value="Planta 2">Planta 2</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="form-group d-flex flex-row bd-highlight">
+                                <div class="form-group p-1 w-100">
+                                    <label for="fecha-planta">Fecha</label>
+                                    <input type="date" class="form-control" id="fecha-planta" name="fecha">
+                                </div>
+                            </div>
+                            <div class="form-group d-flex flex-row bd-highlight">
+                                <div class="form-group d-flex flex-row bd-highlight"></div>
+                                <div class="form-group p-1 w-50">
+                                    <label for="hora_inicio">Hora inicio</label>
+                                    <input type="time" class="form-control" id="hora_inicio" name="hora_inicio">
+                                </div>
+                                <div class="form-group p-1 w-50">
+                                    <label for="hora_final">Hora final</label>
+                                    <input type="time" class="form-control" id="hora_final" name="hora_final">
+                                    <div class="form-check">
+                                        <input class="form-check-input check24hrs" type="checkbox" value="24:00"
+                                            data-ref="hora_final">
+                                        <label class="form-check-label">
+                                            24:00 Horas
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group d-flex flex-row bd-highlight">
+                                <div class="form-group p-1 w-50">
+                                    <label for="ingreso_inicio_caudal" class="w-auto">Inicio del caudal
+                                        ingreso</label>
+                                    <input type="number" step="any" class="form-control" id="ingreso_inicio_caudal"
+                                        name="fin_caudal">
+                                </div>
+                                <div class="form-group p-1 w-50">
+                                    <label for="ingreso_fin_caudal" class="w-auto">Fin del caudal de
+                                        ingreso</label>
+                                    <input type="number" step="any" class="form-control" id="ingreso_fin_caudal"
+                                        name="fin_caudal">
+                                </div>
+                            </div>
+                            <div class="form-group d-flex flex-row bd-highlight">
+                                <div class="form-group p-1 w-50">
+                                    <label for="rechazo_inicio_caudal" class="w-auto">Inicio de caudal de
+                                        rechazo</label>
+                                    <input type="number" step="any" class="form-control" id="rechazo_inicio_caudal"
+                                        name="fin_caudal">
+                                </div>
+                                <div class="form-group p-1 w-50">
+                                    <label for="rechazo_fin_caudal" class="w-auto">Fin de caudal de
+                                        rechazo</label>
+                                    <input type="number" step="any" class="form-control" id="rechazo_fin_caudal"
+                                        name="fin_caudal">
+                                </div>
+                            </div>
+                            <div class="form-group d-flex flex-row bd-highlight">
+                                <div class="form-group p-1 w-100">
+                                    <label for="plantas-obs" class="w-auto">Observaciones</label>
+                                    <textarea name="observaciones" id="plantas-obs" cols="10" rows="1"
+                                        class="form-control"></textarea>
+                                    <div class="form-check">
+                                        <input class="form-check-input" id="chkobs" type="checkbox">
+                                        <label class="form-check-label">
+                                            Retrolavado
+                                        </label>
+                                    </div>
+
+                                </div>
+                            </div>
+                            <div class="d-flex justify-content-end d-flex flex-row">
+                                <button type="submit"
+                                    class="button btn btn-secondary rounded-3 w-33 justify-content-center"
+                                    id="guardarplanta">Guardar</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer d-none" id="footplanta">
+                    <button type="button" id="btnupdateplanta" class="btn btn-dark ">Actualizar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--- Modal registro bypass-->
+    <div class="modal fade" id="modal-bypass" tabindex="-1" aria-labelledby="rplantalabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="rbypasslabel">Agregar BYPASS</h5>
+                    <button type="button" id="close-modal-bypass" class="btn-close" data-bs-dismiss="modal"
+                        aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="formbypass">
+                        <div class="form-group d-flex flex-column bd-highlight">
+                            <div class="form-group d-flex flex-row bd-highlight">
+                                <div class="form-group p-1 w-100">
+                                    <label for="nombre-planta-bypass">Planta</label>
+                                    <select id="nombre-planta-bypass" class="form-select fw-bolder text-center fs-4">
+                                        <option value="Planta 1">Planta 1</option>
+                                        <option value="Planta 2" selected="selected">Planta 2</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="form-group d-flex flex-row bd-highlight">
+                                <div class="form-group p-1 w-100">
+                                    <label for="fecha-planta-bypass">Fecha</label>
+                                    <input type="date" class="form-control" id="fecha-planta-bypass" name="fecha">
+                                </div>
+                            </div>
+                            <div class="form-group d-flex flex-row bd-highlight">
+                                <div class="form-group d-flex flex-row bd-highlight"></div>
+                                <div class="form-group p-1 w-50">
+                                    <label for="hora_inicio-bypass">Hora inicio</label>
+                                    <input type="time" class="form-control" id="hora_inicio-bypass"
+                                        name="hora_inicio-bypass">
+                                </div>
+                                <div class="form-group p-1 w-50">
+                                    <label for="hora_final-bypass">Hora final</label>
+                                    <input type="time" class="form-control" id="hora_final-bypass"
+                                        name="hora_final-bypass">
+                                    <div class="form-check">
+                                        <input class="form-check-input check24hrs" type="checkbox" value="24:00"
+                                            data-ref="hora_final-bypass">
+                                        <label class="form-check-label">
+                                            24:00 Horas
+                                        </label>
+                                    </div>
+                                </div>
+
+
+                            </div>
+                            <div class="form-group d-flex flex-row bd-highlight">
+                                <div class="form-group p-1 w-50">
+                                    <label for="ingreso_inicio_ptoi" class="w-auto">Inicio Caudal
+                                        planta</label>
+                                    <input type="number" step="any" class="form-control" id="ingreso_inicio_ptoi"
+                                        name="fin_caudal">
+                                </div>
+                                <div class="form-group p-1 w-50">
+                                    <label for="ingreso_fin_ptoi" class="w-auto">Fin del caudal planta</label>
+                                    <input type="number" step="any" class="form-control" id="ingreso_fin_ptoi"
+                                        name="fin_caudal">
+                                </div>
+                            </div>
+                            <div class="form-group d-flex flex-row bd-highlight">
+                                <div class="form-group p-1 w-50">
+                                    <label for="inicio_caudal-bypass" class="w-auto">Inicio de caudal de
+                                        bypass</label>
+                                    <input type="number" step="any" class="form-control" id="inicio_caudal-bypass">
+                                </div>
+                                <div class="form-group p-1 w-50">
+                                    <label for="fin_caudal-bypass" class="w-auto">Fin de caudal de
+                                        bypass</label>
+                                    <input type="number" step="any" class="form-control" id="fin_caudal-bypass"
+                                        name="fin_caudal">
+                                </div>
+                            </div>
+                            <div class="form-group d-flex flex-row bd-highlight">
+                                <div class="form-group p-1 w-100">
+                                    <label for="bypass-obs" class="w-auto">observaciones</label>
+                                    <textarea name="observaciones" id="bypass-obs" cols="10" rows="1"
+                                        class="form-control"></textarea>
+                                </div>
+                            </div>
+                            <div class="d-flex justify-content-end d-flex flex-row">
+                                <button type="submit"
+                                    class="button btn btn-secondary rounded-3 w-33 justify-content-center"
+                                    id="guardarbypass">Guardar</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer d-none" id="footbypass">
+                    <button type="button" id="btnupdatebypass" class="btn btn-dark ">Actualizar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--- Modal registro rechazo-->
+    <div class="modal fade" id="modal-rechazo" tabindex="-1" aria-labelledby="rechazolabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="rechazolabel">Agregar Rechazo</h5>
+                    <button type="button" id="close-modal-rechazo" class="btn-close" data-bs-dismiss="modal"
+                        aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="formrechazo">
+                        <div class="form-group d-flex flex-column bd-highlight">
+                            <div class="form-group d-flex flex-row bd-highlight">
+                                <div class="form-group p-1 w-100">
+                                    <label for="fecha-rechazo">Fecha</label>
+                                    <input type="date" class="form-control" id="fecha-rechazo" name="fecha">
+                                </div>
+                            </div>
+                            <div class="form-group d-flex flex-row bd-highlight">
+                                <div class="form-group d-flex flex-row bd-highlight"></div>
+                                <div class="form-group p-1 w-50">
+                                    <label for="hora_inicio-rechazo">Hora inicio</label>
+                                    <input type="time" class="form-control" id="hora_inicio-rechazo">
+                                </div>
+                                <div class="form-group p-1 w-50">
+                                    <label for="hora_final-rechazo" value="24:00">Hora final</label>
+                                    <input type="time" class="form-control" id="hora_final-rechazo">
+                                    <div class="form-check">
+                                        <input class="form-check-input check24hrs" type="checkbox" value="24:00"
+                                            data-ref="hora_final-rechazo">
+                                        <label class="form-check-label">
+                                            24:00 Horas
+                                        </label>
+                                    </div>
+                                </div>
+
+                            </div>
+                            <div class="form-group d-flex flex-row bd-highlight">
+                                <div class="form-group p-1 w-50">
+                                    <label for="inicio_caudal-rechazo" class="w-auto">Inicio de caudal de
+                                        rechazo</label>
+                                    <input type="number" step="any" class="form-control" id="inicio_caudal-rechazo">
+                                </div>
+                                <div class="form-group p-1 w-50">
+                                    <label for="fin_caudal-rechazo" class="w-auto">Fin de caudal de
+                                        rechazo</label>
+                                    <input type="number" step="any" class="form-control" id="fin_caudal-rechazo">
+                                </div>
+                            </div>
+                            <div class="form-group d-flex flex-row bd-highlight">
+                                <div class="form-group p-1 w-100">
+                                    <label for="rechazo-obs" class="w-auto">observaciones</label>
+                                    <textarea name="observaciones" id="rechazo-obs" cols="10" rows="1"
+                                        class="form-control"></textarea>
+                                </div>
+                            </div>
+                            <div class="d-flex justify-content-end d-flex flex-row">
+                                <button type="submit"
+                                    class="button btn btn-secondary rounded-3 w-33 justify-content-center"
+                                    id="guardarrechazo">Guardar</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer d-none" id="footrechazo">
+                    <button type="button" id="btnupdaterechazo" class="btn btn-dark ">Actualizar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--- Modal registro ingreso-->
+    <div class="modal fade" id="modal-ingreso" tabindex="-1" aria-labelledby="ingresolabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="ingresolabel">Agregar Ingreso</h5>
+                    <button type="button" id="close-modal-ingreso" class="btn-close" data-bs-dismiss="modal"
+                        aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="formingreso">
+                        <div class="form-group d-flex flex-column bd-highlight">
+                            <div class="form-group d-flex flex-row bd-highlight">
+                                <div class="form-group p-1 w-100">
+                                    <label for="fecha-ingreso">Fecha</label>
+                                    <input type="date" class="form-control" id="fecha-ingreso" name="fecha">
+                                </div>
+                            </div>
+                            <div class="form-group d-flex flex-row bd-highlight">
+                                <div class="form-group d-flex flex-row bd-highlight"></div>
+                                <div class="form-group p-1 w-50">
+                                    <label for="hora_inicio-ingreso">Hora inicio</label>
+                                    <input type="time" class="form-control" id="hora_inicio-ingreso">
+                                </div>
+                                <div class="form-group p-1 w-50">
+                                    <label for="hora_final-ingreso" value="24:00">Hora final</label>
+                                    <input type="time" class="form-control" id="hora_final-ingreso">
+                                    <div class="form-check">
+                                        <input class="form-check-input check24hrs" type="checkbox" value="24:00"
+                                            data-ref="hora_final-ingreso">
+                                        <label class="form-check-label">
+                                            24:00 Horas
+                                        </label>
+                                    </div>
+                                </div>
+
+                            </div>
+                            <div class="form-group d-flex flex-row bd-highlight">
+                                <div class="form-group p-1 w-50">
+                                    <label for="inicio_caudal-ingreso" class="w-auto">Inicio de caudal de
+                                        ingreso</label>
+                                    <input type="number" step="any" class="form-control" id="inicio_caudal-ingreso">
+                                </div>
+                                <div class="form-group p-1 w-50">
+                                    <label for="fin_caudal-ingreso" class="w-auto">Fin de caudal de
+                                        ingreso</label>
+                                    <input type="number" step="any" class="form-control" id="fin_caudal-ingreso">
+                                </div>
+                            </div>
+                            <div class="form-group d-flex flex-row bd-highlight">
+                                <div class="form-group p-1 w-100">
+                                    <label for="ingreso-obs" class="w-auto">observaciones</label>
+                                    <textarea name="observaciones" id="ingreso-obs" cols="10" rows="1"
+                                        class="form-control"></textarea>
+                                </div>
+                            </div>
+                            <div class="d-flex justify-content-end d-flex flex-row">
+                                <button type="submit"
+                                    class="button btn btn-secondary rounded-3 w-33 justify-content-center"
+                                    id="guardaringreso">Guardar</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer d-none" id="footingreso">
+                    <button type="button" id="btnupdateingreso" class="btn btn-dark ">Actualizar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--- Modal registro PHCE-->
+    <div class="modal fade" id="modal-PHCE" tabindex="-1" aria-labelledby="phcelabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="phcelabel">Agregar Ingreso</h5>
+                    <button type="button" id="close-modal-PHCE" class="btn-close" data-bs-dismiss="modal"
+                        aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="formphce">
+                        <div class="form-group d-flex flex-column bd-highlight">
+                            <div class="form-group d-flex flex-row bd-highlight">
+                                <div class="form-group p-1 w-50">
+                                    <label for="fecha-phce">Fecha</label>
+                                    <input type="date" class="form-control" id="fecha-phce" name="fecha">
+                                </div>
+                                <div class="form-group p-1 w-50">
+                                    <label for="chk_hora-phce">Hora</label>
+                                    <select name="hora" id="chk_hora-phce" class="form-control">
+                                        <option value="06:00:00">06:00:00</option>
+                                        <option value="12:00:00">12:00:00</option>
+                                        <option value="16:00:00">16:00:00</option>
+                                        <option value="22:00:00">22:00:00</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <hr>
+                            <div class="form-group d-flex flex-row bd-highlight">
+                                <div class="form-group p-1 w-50">
+                                    <label for="ph-100" value="24:00">Ph Cruda</label>
+                                    <input type="number" step="any" class="form-control" id="ph-100">
+                                </div>
+                                <div class="form-group p-1 w-50">
+                                    <label for="ce-100" value="24:00">Ce Cruda</label>
+                                    <input type="number" step="any" class="form-control" id="ce-100">
+                                </div>
+                            </div>
+                            <div class="form-group d-flex flex-row bd-highlight">
+                                <div class="form-group p-1 w-50">
+                                    <label for="ph-100-hdmi" value="24:00">Ph Cruda HDMI</label>
+                                    <input type="number" step="any" class="form-control" id="ph-100-hdmi">
+                                </div>
+                                <div class="form-group p-1 w-50">
+                                    <label for="ce-100-hdmi" value="24:00">Ce Cruda HDMI</label>
+                                    <input type="number" step="any" class="form-control" id="ce-100-hdmi">
+                                </div>
+                            </div>
+                            <hr>
+                            <div class="form-group d-flex flex-row bd-highlight">
+                                <div class="form-group p-1 w-50">
+                                    <label for="ph-ptoi" value="24:00">Ph Planta</label>
+                                    <input type="number" step="any" class="form-control" id="ph-ptoi">
+                                </div>
+                                <div class="form-group p-1 w-50">
+                                    <label for="ce-ptoi" value="24:00">Ce Planta</label>
+                                    <input type="number" step="any" class="form-control" id="ce-ptoi">
+                                </div>
+                            </div>
+                            <div class="form-group d-flex flex-row bd-highlight">
+                                <div class="form-group p-1 w-50">
+                                    <label for="ph-ptoi-hdmi" value="24:00">Ph Planta HDMI</label>
+                                    <input type="number" step="any" class="form-control" id="ph-ptoi-hdmi">
+                                </div>
+                                <div class="form-group p-1 w-50">
+                                    <label for="ce-ptoi-hdmi" value="24:00">Ce Planta HDMI</label>
+                                    <input type="number" step="any" class="form-control" id="ce-ptoi-hdmi">
+                                </div>
+                            </div>
+                            <div class="form-group d-flex flex-row bd-highlight">
+                                <div class="form-group p-1 w-50">
+                                    <label for="ph-ptoi2" value="24:00">Ph Planta 2</label>
+                                    <input type="number" step="any" class="form-control" id="ph-ptoi2">
+                                </div>
+
+                                <div class="form-group p-1 w-50">
+                                    <label for="ce-ptoi2" value="24:00">Ce Planta 2</label>
+                                    <input type="number" step="any" class="form-control" id="ce-ptoi2">
+                                </div>
+
+                            </div>
+                            <div class="form-group d-flex flex-row bd-highlight">
+                                <div class="form-group p-1 w-50">
+                                    <label for="ph-ptoi2-hdmi" value="24:00">Ph Planta 2 HDMI</label>
+                                    <input type="number" step="any" class="form-control" id="ph-ptoi2-hdmi">
+                                </div>
+                                <div class="form-group p-1 w-50">
+                                    <label for="ce-ptoi-hdmi2" value="24:00">Ce Planta 2 HDMI</label>
+                                    <input type="number" step="any" class="form-control" id="ce-ptoi2-hdmi">
+                                </div>
+                            </div>
+                            <hr>
+                            <div class="form-group d-flex flex-row bd-highlight">
+                                <div class="form-group p-1 w-50">
+                                    <label for="ph-piscina" value="24:00">Ph Piscina</label>
+                                    <input type="number" step="any" class="form-control" id="ph-piscina">
+                                </div>
+                                <div class="form-group p-1 w-50">
+                                    <label for="ce-piscina" value="24:00">Ce Piscina</label>
+                                    <input type="number" step="any" class="form-control" id="ce-piscina">
+                                </div>
+                            </div>
+                            <div class="form-group d-flex flex-row bd-highlight">
+                                <div class="form-group p-1 w-100">
+                                    <label for="phce-obs" class="w-auto">observaciones</label>
+                                    <textarea name="observaciones" id="phce-obs" cols="10" rows="1"
+                                        class="form-control"></textarea>
+                                </div>
+                            </div>
+                            <div class="d-flex justify-content-end d-flex flex-row">
+                                <button type="submit"
+                                    class="button btn btn-secondary rounded-3 w-33 justify-content-center"
+                                    id="guardarphce">Guardar</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer d-none" id="footphce">
+                    <button type="button" id="btnupdatephce" class="btn btn-dark ">Actualizar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Modal planta 1-->
+    <div class="modal fade" id="ptoi1hdmi" tabindex="-1" aria-labelledby="labelptoi1" aria-hidden="true">
+        <div class="modal-dialog modal-fullscreen">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="labelptoi1">Registro planta 1</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <h2>Registros ptoi 1</h2>
+
+                    <form id="buscarhdmi1">
+                        <div class="form-control">
+                            <div class="form-group d-flex flex-row bd-highlight">
+                                <div class="form-group p-1 w-50">
+                                    <label for="qdatestarthdmi1">Fecha inicio</label>
+                                    <input type="date" class="form-control" id="qdatestarthdmi1" name="hora_inicio"
+                                        value="2022-01-01">
+                                </div>
+                                <div class="form-group p-1 w-50">
+                                    <label for="qdateendhdmi1">Fecha final</label>
+                                    <input type="date" class="form-control" id="qdateendhdmi1" name="hora_final">
+                                </div>
+
+                            </div>
+                            <div class="form-group d-flex flex-row bd-highlight">
+                                <div class="form-group p-1">
+                                    <button type="button" id="qhdmi1dt" class="btn btn-dark m-2">Buscar</button>
+                                </div>
+                                <div class="form-group p-1">
+                                    <button type="button" class="btn btn-success m-2"
+                                        onclick="ExportToExcel('xls','xlshdmi1','hdmi1')">Guardar excel</button>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                    <div class="table responsive">
+                        <table id="xlshdmi1" class="table table-bordered w-90">
+                            <thead>
+                                <tr>
+                                    <th scope="col">fecha</th>
+                                    <th scope="col">hora</th>
+                                    <th scope="col">P60</th>
+                                    <th scope="col">PRESSURE_SP</th>
+                                    <th scope="col">FIT_20</th>
+                                    <th scope="col">PT_20</th>
+                                    <th scope="col">PT_20SP</th>
+                                    <th scope="col">PH_02</th>
+                                    <th scope="col">PT20_PT01</th>
+                                    <th scope="col">CON_0</th>
+                                    <th scope="col">PT_01</th>
+                                    <th scope="col">PT_02</th>
+                                    <th scope="col">PT_03</th>
+                                    <th scope="col">PT_02SP</th>
+                                    <th scope="col">PT_03SP</th>
+                                    <th scope="col">PT01_PT02</th>
+                                    <th scope="col">TOC</th>
+                                    <th scope="col">PT_100</th>
+                                    <th scope="col">FIT_01</th>
+                                    <th scope="col">P_71</th>
+                                    <th scope="col">P_71hz</th>
+                                    <th scope="col">DP_01</th>
+                                    <th scope="col">DP_01SP</th>
+                                    <th scope="col">PH_01</th>
+                                    <th scope="col">PT_05</th>
+                                    <th scope="col">CON_01</th>
+                                    <th scope="col">FIT_02</th>
+                                    <th scope="col">CON_02</th>
+                                    <th scope="col">FIT_03</th>
+                                    <th scope="col">PT_06</th>
+                                    <th scope="col">PT03_PT06</th>
+                                    <th scope="col">Acciones</th>
+
+                                </tr>
+                            </thead>
+                            <tbody id="content-hdmi1-tabla">
+
+                            </tbody>
+                        </table>
+
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Modal planta 1-->
+    <div class="modal fade" id="ptoi2hdmi" tabindex="-1" aria-labelledby="labelptoi2" aria-hidden="true">
+        <div class="modal-dialog modal-fullscreen">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="labelptoi2">Registro planta 2</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <h2>Registros ptoi 2</h2>
+                    
+                    <form id="buscarhdmi2">
+                        <div class="form-control">
+                            <div class="form-group d-flex flex-row bd-highlight">
+                                <div class="form-group p-1 w-50">
+                                    <label for="qdatestarthdmi2">Fecha inicio</label>
+                                    <input type="date" class="form-control" id="qdatestarthdmi2" name="hora_inicio"
+                                        value="2022-01-01">
+                                </div>
+                                <div class="form-group p-1 w-50">
+                                    <label for="qdateendhdmi2">Fecha final</label>
+                                    <input type="date" class="form-control" id="qdateendhdmi2" name="hora_final">
+                                </div>
+
+                            </div>
+                            <div class="form-group d-flex flex-row bd-highlight">
+                                <div class="form-group p-1">
+                                    <button type="button" id="qhdmi2dt" class="btn btn-dark m-2">Buscar</button>
+                                </div>
+                                <div class="form-group p-1">
+                                    <button type="button" class="btn btn-success m-2"
+                                        onclick="ExportToExcel('xls','xlshdmi2','hdmi2')">Guardar excel</button>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                    <div class="table responsive">
+                        <table id="xlshdmi2" class="table table-bordered w-90">
+                            <thead>
+                                <tr>
+                                    <th scope="col">fecha</th>
+                                    <th scope="col">hora</th>
+                                    <th scope="col">P60</th>
+                                    <th scope="col">PRESSURE_SP</th>
+                                    <th scope="col">FIT_20</th>
+                                    <th scope="col">PT_20</th>
+                                    <th scope="col">PT_20SP</th>
+                                    <th scope="col">PH_60</th>
+                                    <th scope="col">PT20_PT01</th>
+                                    <th scope="col">CON_0</th>
+                                    <th scope="col">PT_01</th>
+                                    <th scope="col">PT_02</th>
+                                    <th scope="col">PT_03</th>
+                                    <th scope="col">PT_02SP</th>
+                                    <th scope="col">PT_03SP</th>
+                                    <th scope="col">PT01_PT02</th>
+                                    <th scope="col">TOC</th>
+                                    <th scope="col">PT_100</th>
+                                    <th scope="col">FIT_01</th>
+                                    <th scope="col">P_71</th>
+                                    <th scope="col">P_71hz</th>
+                                    <th scope="col">DP_01</th>
+                                    <th scope="col">DP_01SP</th>
+                                    <th scope="col">ERT</th>
+                                    <th scope="col">PT_05</th>
+                                    <th scope="col">CON_01</th>
+                                    <th scope="col">FIT_02</th>
+                                    <th scope="col">PH_01</th>
+                                    <th scope="col">FIT_80</th>
+                                    <th scope="col">FIT_03</th>
+                                    <th scope="col">PT_06</th>
+                                    <th scope="col">PT03_PT06</th>
+                                </tr>
+                            </thead>
+                            <tbody id="content-hdmi2-tabla">
+
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script>
+        function ExportToExcel(type, tabla, nombre, fn, dl) {
+            var elt = document.getElementById(tabla);
+            var wb = XLSX.utils.table_to_book(elt, {
+                sheet: "sheet1",
+                raw: true
+            });
+            return dl ?
+                XLSX.write(wb, {
+                    bookType: type,
+                    bookSST: true,
+                    type: 'base64'
+                }) :
+                XLSX.writeFile(wb, fn || (nombre + '.' + (type || 'xlsx')));
+        }
+    </script>
+    <script type="module" src="reportes.js"></script>
+    <script src="navegacionreportes.js"></script>
+    <script type="module" src="helptorch.js"></script>
+</body>
+
+
+</html>
