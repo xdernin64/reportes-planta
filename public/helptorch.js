@@ -7,14 +7,12 @@ export const totimestamp = (fecharaw) => {
     var dateObject = dateMomentObject.toDate();
     let fechaf = Timestamp.fromDate(dateObject);
     fecharaw = fechaf;
-    console.log(fecharaw);
     return fecharaw;
 }
 
 export const Timestamptodate = (fecharaw) => {
     let fechaf = fecharaw.toDate();
     fecharaw = fechaf;
-    console.log(fecharaw);
     return fecharaw;
 }
 export const  currentdate= () => {

@@ -34,9 +34,15 @@ import {
     addDoc,
     Timestamp,
     deleteDoc,
-    updateDoc, startAt, endAt, startAfter, endBefore
+    updateDoc,
+    startAt,
+    endAt,
+    startAfter,
+    endBefore
 } from "https://www.gstatic.com/firebasejs/9.7.0/firebase-firestore.js";
-import { totimestamp } from "./helptorch.js";
+import {
+    totimestamp
+} from "./helptorch.js";
 export const dateformater = {
     year: "numeric",
     month: "2-digit",
@@ -45,11 +51,13 @@ export const dateformater = {
 
 
 //cargando tabla plantas
-export const cargarplanta = async (db, planta,inicio,fin,lim) => {
+export const cargarplanta = async (db, planta, inicio, fin, lim) => {
     const queryplanta = query(collection(db, "Reportes/Planta/PTOI"), where("planta", "==", planta), orderBy("fecha", "desc"), orderBy("horainicio", "desc"), startAt(fin, "25:00"), endBefore(inicio, true), limit(lim));
     onSnapshot(queryplanta, (snapshot) => {
         var html = "";
+
         snapshot.forEach((doc) => {
+
             const fechas = doc.data().fecha.toDate().toLocaleDateString("es-PE", dateformater);
             const li = `
             <tr>
@@ -73,6 +81,7 @@ export const cargarplanta = async (db, planta,inicio,fin,lim) => {
             `
             html += li;
         });
+
         document.getElementById("contenido-plantas").innerHTML = html;
         const btneliminarplanta = document.querySelectorAll(".eliminarplanta");
         btneliminarplanta.forEach((boton) => {
@@ -96,7 +105,7 @@ export const cargarplanta = async (db, planta,inicio,fin,lim) => {
                         deletergistroplanta(db, id);
                     }
                 })
-                
+
             });
         });
         const btnEditarplanta = document.querySelectorAll(".editarplanta");
@@ -124,11 +133,13 @@ export const cargarplanta = async (db, planta,inicio,fin,lim) => {
     });
 }
 //CARGANDO BYPASS
-export const cargarbypass = async (db, planta,inicio,fin,lim) => {
+export const cargarbypass = async (db, planta, inicio, fin, lim) => {
     const querybypass = query(collection(db, "Reportes/Planta/bypass"), where("planta", "==", planta), orderBy("fecha", "desc"), orderBy("horainicio", "desc"), startAt(fin, "25:00"), endBefore(inicio, true), limit(lim));
     onSnapshot(querybypass, (snapshot) => {
         var html = "";
+
         snapshot.forEach((doc) => {
+
             const fechas = doc.data().fecha.toDate().toLocaleDateString();
             const li = `
             <tr>
@@ -152,6 +163,7 @@ export const cargarbypass = async (db, planta,inicio,fin,lim) => {
             `
             html += li;
         });
+
         document.getElementById("contenido-bypass").innerHTML = html;
         const btneliminarbypass = document.querySelectorAll(".eliminarbypass");
         btneliminarbypass.forEach((boton) => {
@@ -175,7 +187,7 @@ export const cargarbypass = async (db, planta,inicio,fin,lim) => {
                         deletebypass(db, id);
                     }
                 })
-                
+
             });
         });
         const btnEditarbypass = document.querySelectorAll(".editarbypass");
@@ -202,11 +214,13 @@ export const cargarbypass = async (db, planta,inicio,fin,lim) => {
     });
 }
 //cargando rechazo
-export const cargarrechazo = async (db,inicio, fin, lim) => {
+export const cargarrechazo = async (db, inicio, fin, lim) => {
     const queryrechazo = query(collection(db, "Reportes/Piscinas/rechazo-300m3"), orderBy("fecha", "desc"), orderBy("horainicio", "desc"), startAt(fin, "25:00"), endBefore(inicio, true), limit(lim));
     onSnapshot(queryrechazo, (snapshot) => {
         var html = "";
+
         snapshot.forEach((doc) => {
+
             const fechas = doc.data().fecha.toDate().toLocaleDateString();
             const li = `
             <tr>
@@ -227,6 +241,7 @@ export const cargarrechazo = async (db,inicio, fin, lim) => {
             `
             html += li;
         });
+
         document.getElementById("contenido-rechazo").innerHTML = html;
         const btneliminarrechazo = document.querySelectorAll(".eliminarrechazo");
         btneliminarrechazo.forEach((boton) => {
@@ -250,7 +265,7 @@ export const cargarrechazo = async (db,inicio, fin, lim) => {
                         deletergistrorechazo(db, id);
                     }
                 })
-                
+
             });
         });
         const btnEditarrechazo = document.querySelectorAll(".editarrechazo");
@@ -278,7 +293,9 @@ export const cargaringreso = async (db, inicio, fin, lim) => {
     const queryingreso = query(collection(db, "Reportes/Piscinas/Ingreso-100m3"), orderBy("fecha", "desc"), orderBy("horainicio", "desc"), startAt(fin, "25:00"), endBefore(inicio, true), limit(lim));
     onSnapshot(queryingreso, (snapshot) => {
         var html = "";
+
         snapshot.forEach((doc) => {
+
             const fechas = doc.data().fecha.toDate().toLocaleDateString();
             const li = `
             <tr>
@@ -299,6 +316,7 @@ export const cargaringreso = async (db, inicio, fin, lim) => {
             `
             html += li;
         });
+
         document.getElementById("contenido-ingreso").innerHTML = html;
         const btneliminaringreso = document.querySelectorAll(".eliminaringreso");
         btneliminaringreso.forEach((boton) => {
@@ -322,9 +340,10 @@ export const cargaringreso = async (db, inicio, fin, lim) => {
                         deleteingreso(db, id);
                     }
                 })
-                
+
             });
         });
+
         const btnEditaringreso = document.querySelectorAll(".editaringreso");
         btnEditaringreso.forEach((boton) => {
             boton.addEventListener("click", async (e) => {
@@ -350,7 +369,9 @@ export const cargarphce = async (db, inicio, fin, lim) => {
     const queryphce = query(collection(db, "Reportes/Planta/phce"), orderBy("fecha", "desc"), orderBy("hora", "desc"), startAt(fin, "25:00"), endBefore(inicio, true), limit(lim));
     onSnapshot(queryphce, (snapshot) => {
         var html = "";
+
         snapshot.forEach((doc) => {
+
             const fechas = doc.data().fecha.toDate().toLocaleDateString();
             const li = `
             <tr>
@@ -382,6 +403,7 @@ export const cargarphce = async (db, inicio, fin, lim) => {
             `
             html += li;
         });
+
         document.getElementById("contenido-phce").innerHTML = html;
         const btneliminarphce = document.querySelectorAll(".eliminarphce");
         btneliminarphce.forEach((boton) => {
@@ -405,7 +427,7 @@ export const cargarphce = async (db, inicio, fin, lim) => {
                         deletergistrophce(db, id);
                     }
                 })
-                
+
             });
         });
         const btnEditarphce = document.querySelectorAll(".editarphce");
@@ -413,7 +435,6 @@ export const cargarphce = async (db, inicio, fin, lim) => {
             boton.addEventListener("click", async (e) => {
                 const id = e.target.dataset.id;
                 const doc = (await getphce(db, id)).data();
-                console.log(doc.fecha);
                 document.getElementById("formphce")['fecha-phce'].value = doc.fecha.toDate().toLocaleDateString('en-CA');
                 document.getElementById("formphce")['chk_hora-phce'].value = doc.hora;
                 document.getElementById("formphce")['ph-100'].value = doc.phcruda;
@@ -516,7 +537,9 @@ export const cargarhdmi1 = async (db, inicio, fin, lim) => {
     const queryhdmi = query(collection(db, "Reportes/Planta/hdmi1"), orderBy("fecha", "desc"), orderBy("hora", "desc"), startAt(fin, "25:00"), endBefore(inicio, true), limit(lim));
     onSnapshot(queryhdmi, (snapshot) => {
         var html = "";
+
         snapshot.forEach((doc) => {
+
             const fechas = doc.data().fecha.toDate().toLocaleDateString();
             const li = `
             <tr>
@@ -562,6 +585,7 @@ export const cargarhdmi1 = async (db, inicio, fin, lim) => {
             `
             html += li;
         });
+
         document.getElementById("content-hdmi1-tabla").innerHTML = html;
         const btneliminarhdmi = document.querySelectorAll(".eliminarhdmi");
         btneliminarhdmi.forEach((boton) => {
@@ -585,7 +609,7 @@ export const cargarhdmi1 = async (db, inicio, fin, lim) => {
                         deletergistrohdmi1(db, id);
                     }
                 })
-                
+
             });
         });
         const btneditarhdmi = document.querySelectorAll(".editarhdmi");
@@ -612,7 +636,9 @@ export const cargarhdmi2 = async (db, inicio, fin, lim) => {
     const queryhdmi = query(collection(db, "Reportes/Planta/hdmi2"), orderBy("fecha", "desc"), orderBy("hora", "desc"), startAt(fin, "25:00"), endBefore(inicio, true), limit(lim));
     onSnapshot(queryhdmi, (snapshot) => {
         var html = "";
+
         snapshot.forEach((doc) => {
+
             const fechas = doc.data().fecha.toDate().toLocaleDateString();
             const li = `
             <tr>
@@ -659,6 +685,7 @@ export const cargarhdmi2 = async (db, inicio, fin, lim) => {
             `
             html += li;
         });
+
         document.getElementById("content-hdmi2-tabla").innerHTML = html;
         const btneliminarhdmi = document.querySelectorAll(".eliminarhdmi2");
         btneliminarhdmi.forEach((boton) => {
@@ -682,7 +709,7 @@ export const cargarhdmi2 = async (db, inicio, fin, lim) => {
                         deletergistrohdmi2(db, id);
                     }
                 })
-                
+
             });
         });
         const btneditarhdmi = document.querySelectorAll(".editarhdmi2");
