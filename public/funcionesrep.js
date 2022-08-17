@@ -168,23 +168,17 @@ export const guardaringreso = (fecharaw, fecha, horainicio, horafin, ingresoinic
         });
     });
 }
-export const guardarphce = (fecharaw, fecha, hora, phcruda, cecruda, phcrudahdmi, cecrudahdmi, phptoi1, ceptoi1, phptoi1hdmi, ceptoi1hdmi, phptoi2, ceptoi2, phptoi2hdmi, ceptoi2hdmi, phpiscina, cepiscina, obseraciones) => {
+export const guardarphce = (fecharaw, fecha, hora, phcruda, cecruda, phptoi1, ceptoi1, phptoi2, ceptoi2, phpiscina, cepiscina, obseraciones) => {
     addDoc(collection(db, "Reportes/Planta/phce"), {
         fecharaw,
         fecha,
         hora,
         phcruda,
         cecruda,
-        phcrudahdmi,
-        cecrudahdmi,
         phptoi1,
         ceptoi1,
-        phptoi1hdmi,
-        ceptoi1hdmi,
         phptoi2,
         ceptoi2,
-        phptoi2hdmi,
-        ceptoi2hdmi,
         phpiscina,
         cepiscina,
         obseraciones
@@ -195,16 +189,10 @@ export const guardarphce = (fecharaw, fecha, hora, phcruda, cecruda, phcrudahdmi
             hora,
             phcruda,
             cecruda,
-            phcrudahdmi,
-            cecrudahdmi,
             phptoi1,
             ceptoi1,
-            phptoi1hdmi,
-            ceptoi1hdmi,
             phptoi2,
             ceptoi2,
-            phptoi2hdmi,
-            ceptoi2hdmi,
             phpiscina,
             cepiscina,
             obseraciones
@@ -473,23 +461,17 @@ export const updateingreso = (id, fecharaw, fecha, horainicio, horafin, ingresoi
         obseraciones
     }));
 }
-export const updatephce = (id, fecharaw, fecha, hora, phcruda, cecruda, phcrudahdmi, cecrudahdmi, phptoi1, ceptoi1, phptoi1hdmi, ceptoi1hdmi, phptoi2, ceptoi2, phptoi2hdmi, ceptoi2hdmi, phpiscina, cepiscina, obseraciones) => {
+export const updatephce = (id, fecharaw, fecha, hora, phcruda, cecruda, phptoi1, ceptoi1, phptoi2, ceptoi2, phpiscina, cepiscina, obseraciones) => {
     updateDoc(doc(db, "Reportes/Planta/phce", id), {
         fecharaw,
         fecha,
         hora,
         phcruda,
         cecruda,
-        phcrudahdmi,
-        cecrudahdmi,
         phptoi1,
         ceptoi1,
-        phptoi1hdmi,
-        ceptoi1hdmi,
         phptoi2,
         ceptoi2,
-        phptoi2hdmi,
-        ceptoi2hdmi,
         phpiscina,
         cepiscina,
         obseraciones
@@ -499,16 +481,10 @@ export const updatephce = (id, fecharaw, fecha, hora, phcruda, cecruda, phcrudah
         hora,
         phcruda,
         cecruda,
-        phcrudahdmi,
-        cecrudahdmi,
         phptoi1,
         ceptoi1,
-        phptoi1hdmi,
-        ceptoi1hdmi,
         phptoi2,
         ceptoi2,
-        phptoi2hdmi,
-        ceptoi2hdmi,
         phpiscina,
         cepiscina,
         obseraciones

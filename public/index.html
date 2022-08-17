@@ -24,9 +24,16 @@
     <script src="https://momentjs.com/downloads/moment.min.js"></script>
     <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script type="text/javascript" src="https://unpkg.com/xlsx@0.15.1/dist/xlsx.full.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.3/moment.min.js"
+        integrity="sha512-x/vqovXY/Q4b+rNjgiheBsA/vbWA3IVvsS8lkQSX1gQ4ggSJx38oI2vREZXpTzhAv6tNUaX81E7QBBzkpDQayA=="
+        crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css"
         integrity="sha512-KfkfwYDsLkIlwQp6LFnl8zNdLGxu9YAA1QvwINks4PhcElQSvqcyVLLD9aMhXd13uQjoXtEKNosOWaZqXgel0g=="
         crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="icon"
+        href="https://media.istockphoto.com/vectors/reverse-osmosis-icon-vector-id1220116076?k=20&m=1220116076&s=170667a&w=0&h=S-CNO1uN8fV5OmS1n3J8KqkJd4DeqQ1cZev0XqI0q8g=">
+
+
 </head>
 
 <body>
@@ -482,16 +489,10 @@
                             <th scope="col">HORA</th>
                             <th scope="col">PH CRUDA</th>
                             <th scope="col">CE CRUDA</th>
-                            <th scope="col">Ph CRUDA HDMI</th>
-                            <th scope="col">CE CRUDA HDMI</th>
-                            <th scope="col">POI1 PH</th>
-                            <th scope="col">POI1 CE</th>
-                            <th scope="col">POI1 PH HDMI</th>
-                            <th scope="col">POI1 CE HDMI</th>
-                            <th scope="col">POI2 PH</th>
-                            <th scope="col">POI2 CE</th>
-                            <th scope="col">POI2 PH HDMI</th>
-                            <th scope="col">POI2 CE HDMI</th>
+                            <th scope="col">PTOI1 PH</th>
+                            <th scope="col">PTOI1 CE</th>
+                            <th scope="col">PTOI2 PH</th>
+                            <th scope="col">PTOI2 CE</th>
                             <th scope="col">PH PISCINA </th>
                             <th scope="col">CE PISCINA </th>
                             <th scope="col">OBSERVACIONES</th>
@@ -857,7 +858,7 @@
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="phcelabel">Agregar Ingreso</h5>
+                    <h5 class="modal-title" id="phcelabel">Agregar phce</h5>
                     <button type="button" id="close-modal-PHCE" class="btn-close" data-bs-dismiss="modal"
                         aria-label="Close"></button>
                 </div>
@@ -890,16 +891,6 @@
                                     <input type="number" step="any" class="form-control" id="ce-100">
                                 </div>
                             </div>
-                            <div class="form-group d-flex flex-row bd-highlight">
-                                <div class="form-group p-1 w-50">
-                                    <label for="ph-100-hdmi" value="24:00">Ph Cruda HDMI</label>
-                                    <input type="number" step="any" class="form-control" id="ph-100-hdmi">
-                                </div>
-                                <div class="form-group p-1 w-50">
-                                    <label for="ce-100-hdmi" value="24:00">Ce Cruda HDMI</label>
-                                    <input type="number" step="any" class="form-control" id="ce-100-hdmi">
-                                </div>
-                            </div>
                             <hr>
                             <div class="form-group d-flex flex-row bd-highlight">
                                 <div class="form-group p-1 w-50">
@@ -913,16 +904,6 @@
                             </div>
                             <div class="form-group d-flex flex-row bd-highlight">
                                 <div class="form-group p-1 w-50">
-                                    <label for="ph-ptoi-hdmi" value="24:00">Ph Planta 1 HDMI</label>
-                                    <input type="number" step="any" class="form-control" id="ph-ptoi-hdmi">
-                                </div>
-                                <div class="form-group p-1 w-50">
-                                    <label for="ce-ptoi-hdmi" value="24:00">Ce Planta 1 HDMI</label>
-                                    <input type="number" step="any" class="form-control" id="ce-ptoi-hdmi">
-                                </div>
-                            </div>
-                            <div class="form-group d-flex flex-row bd-highlight">
-                                <div class="form-group p-1 w-50">
                                     <label for="ph-ptoi2" value="24:00">Ph Planta 2</label>
                                     <input type="number" step="any" class="form-control" id="ph-ptoi2">
                                 </div>
@@ -932,16 +913,6 @@
                                     <input type="number" step="any" class="form-control" id="ce-ptoi2">
                                 </div>
 
-                            </div>
-                            <div class="form-group d-flex flex-row bd-highlight">
-                                <div class="form-group p-1 w-50">
-                                    <label for="ph-ptoi2-hdmi" value="24:00">Ph Planta 2 HDMI</label>
-                                    <input type="number" step="any" class="form-control" id="ph-ptoi2-hdmi">
-                                </div>
-                                <div class="form-group p-1 w-50">
-                                    <label for="ce-ptoi-hdmi2" value="24:00">Ce Planta 2 HDMI</label>
-                                    <input type="number" step="any" class="form-control" id="ce-ptoi2-hdmi">
-                                </div>
                             </div>
                             <hr>
                             <div class="form-group d-flex flex-row bd-highlight">

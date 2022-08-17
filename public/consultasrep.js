@@ -379,16 +379,10 @@ export const cargarphce = async (db, inicio, fin, lim) => {
                 <td>${doc.data().hora}</td>
                 <td>${doc.data().phcruda}</td>
                 <td>${doc.data().cecruda}</td>
-                <td>${doc.data().phcrudahdmi}</td>
-                <td>${doc.data().cecrudahdmi}</td>
                 <td>${doc.data().phptoi1}</td>
                 <td>${doc.data().ceptoi1}</td>
-                <td>${doc.data().phptoi1hdmi}</td>
-                <td>${doc.data().ceptoi1hdmi}</td>
                 <td>${doc.data().phptoi2}</td>
                 <td>${doc.data().ceptoi2}</td>
-                <td>${doc.data().phptoi2hdmi}</td>
-                <td>${doc.data().ceptoi2hdmi}</td>
                 <td>${doc.data().phpiscina}</td>
                 <td>${doc.data().cepiscina}</td>
                 <td>${doc.data().obseraciones}</td>
@@ -439,16 +433,10 @@ export const cargarphce = async (db, inicio, fin, lim) => {
                 document.getElementById("formphce")['chk_hora-phce'].value = doc.hora;
                 document.getElementById("formphce")['ph-100'].value = doc.phcruda;
                 document.getElementById("formphce")['ce-100'].value = doc.cecruda;
-                document.getElementById("formphce")['ph-100-hdmi'].value = doc.phcrudahdmi;
-                document.getElementById("formphce")['ce-100-hdmi'].value = doc.cecrudahdmi;
                 document.getElementById("formphce")['ph-ptoi'].value = doc.phptoi1;
                 document.getElementById("formphce")['ce-ptoi'].value = doc.ceptoi1;
-                document.getElementById("formphce")['ph-ptoi-hdmi'].value = doc.phptoi1hdmi;
-                document.getElementById("formphce")['ce-ptoi-hdmi'].value = doc.ceptoi1hdmi;
                 document.getElementById("formphce")['ph-ptoi2'].value = doc.phptoi2;
                 document.getElementById("formphce")['ce-ptoi2'].value = doc.ceptoi2;
-                document.getElementById("formphce")['ph-ptoi2-hdmi'].value = doc.phptoi2hdmi;
-                document.getElementById("formphce")['ce-ptoi2-hdmi'].value = doc.ceptoi2hdmi;
                 document.getElementById("formphce")['ph-piscina'].value = doc.phpiscina;
                 document.getElementById("formphce")['ce-piscina'].value = doc.cepiscina;
                 document.getElementById("formphce")['phce-obs'].value = doc.obseraciones;

@@ -322,16 +322,10 @@ auth.onAuthStateChanged(async function (user) {
                 const hora = document.getElementById("chk_hora-phce").value;
                 const phcruda = Number(document.getElementById("ph-100").value);
                 const cecruda = Number(document.getElementById("ce-100").value);
-                const phcrudahdmi = Number(document.getElementById("ph-100-hdmi").value);
-                const cecrudahdmi = Number(document.getElementById("ce-100-hdmi").value);
                 const phplanta = Number(document.getElementById("ph-ptoi").value);
                 const ceplanta = Number(document.getElementById("ce-ptoi").value);
-                const phplantahdmi = Number(document.getElementById("ph-ptoi-hdmi").value);
-                const ceplantahdmi = Number(document.getElementById("ce-ptoi-hdmi").value);
                 const phplanta2 = Number(document.getElementById("ph-ptoi2").value);
                 const ceplanta2 = Number(document.getElementById("ce-ptoi2").value);
-                const phplantahdmi2 = Number(document.getElementById("ph-ptoi2-hdmi").value);
-                const ceplantahdmi2 = Number(document.getElementById("ce-ptoi2-hdmi").value);
                 const phpiscina = Number(document.getElementById("ph-piscina").value);
                 const cepiscina = Number(document.getElementById("ce-piscina").value);
                 const observaciones = document.getElementById("phce-obs").value;
@@ -342,16 +336,10 @@ auth.onAuthStateChanged(async function (user) {
                     hora,
                     phcruda,
                     cecruda,
-                    phcrudahdmi,
-                    cecrudahdmi,
                     phplanta,
                     ceplanta,
-                    phplantahdmi,
-                    ceplantahdmi,
                     phplanta2,
                     ceplanta2,
-                    phplantahdmi2,
-                    ceplantahdmi2,
                     phpiscina,
                     cepiscina,
                     observaciones
@@ -368,16 +356,10 @@ auth.onAuthStateChanged(async function (user) {
                 const hora = document.getElementById("chk_hora-phce").value;
                 const phcruda = Number(document.getElementById("ph-100").value);
                 const cecruda = Number(document.getElementById("ce-100").value);
-                const phcrudahdmi = Number(document.getElementById("ph-100-hdmi").value);
-                const cecrudahdmi = Number(document.getElementById("ce-100-hdmi").value);
                 const phplanta = Number(document.getElementById("ph-ptoi").value);
                 const ceplanta = Number(document.getElementById("ce-ptoi").value);
-                const phplantahdmi = Number(document.getElementById("ph-ptoi-hdmi").value);
-                const ceplantahdmi = Number(document.getElementById("ce-ptoi-hdmi").value);
                 const phplanta2 = Number(document.getElementById("ph-ptoi2").value);
                 const ceplanta2 = Number(document.getElementById("ce-ptoi2").value);
-                const phplantahdmi2 = Number(document.getElementById("ph-ptoi2-hdmi").value);
-                const ceplantahdmi2 = Number(document.getElementById("ce-ptoi2-hdmi").value);
                 const phpiscina = Number(document.getElementById("ph-piscina").value);
                 const cepiscina = Number(document.getElementById("ce-piscina").value);
                 const observaciones = document.getElementById("phce-obs").value;
@@ -387,16 +369,10 @@ auth.onAuthStateChanged(async function (user) {
                     hora,
                     phcruda,
                     cecruda,
-                    phcrudahdmi,
-                    cecrudahdmi,
                     phplanta,
                     ceplanta,
-                    phplantahdmi,
-                    ceplantahdmi,
                     phplanta2,
                     ceplanta2,
-                    phplantahdmi2,
-                    ceplantahdmi2,
                     phpiscina,
                     cepiscina,
                     observaciones
